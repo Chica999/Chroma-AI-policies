@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Chroma AI — Policy Pages</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: #010409;
+      min-height: 100vh;
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      padding: 2rem 1rem;
+    }
+
+    .readme-wrap {
+      font-family: 'Space Grotesk', sans-serif;
+      background: #0d1117;
+      color: #e6edf3;
+      width: 100%;
+      max-width: 720px;
+      padding: 2.5rem 2rem 3rem;
+      border-radius: 12px;
+      border: 1px solid #21262d;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .grid-bg {
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(188,140,255,0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(88,166,255,0.04) 1px, transparent 1px);
+      background-size: 40px 40px;
+      pointer-events: none;
+    }
+
+    .glow {
+      position: absolute;
+      width: 320px;
+      height: 320px;
+      background: radial-gradient(circle, rgba(188,140,255,0.12) 0%, transparent 70%);
+      top: -60px;
+      right: -60px;
+      pointer-events: none;
+      animation: pulse-glow 4s ease-in-out infinite;
+    }
+
+    @keyframes pulse-glow {
+      0%, 100% { opacity: 0.6; transform: scale(1); }
+      50% { opacity: 1; transform: scale(1.1); }
+    }
+
+    .content { position: relative; z-index: 1; }
+
+    .badge-row {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 1.5rem;
+      opacity: 0;
+      animation: fade-up 0.5s ease forwards 0.1s;
+    }
+
+    .badge {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      padding: 3px 10px;
+      border-radius: 20px;
+      border: 1px solid;
+      font-weight: 500;
+      letter-spacing: 0.02em;
+    }
+    .badge-blue { background: rgba(88,166,255,0.12); color: #58a6ff; border-color: rgba(88,166,255,0.3); }
+    .badge-green { background: rgba(63,185,80,0.12); color: #3fb950; border-color: rgba(63,185,80,0.3); }
+    .badge-purple { background: rgba(188,140,255,0.12); color: #bc8cff; border-color: rgba(188,140,255,0.3); }
+
+    .hero {
+      margin-bottom: 2rem;
+      opacity: 0;
+      animation: fade-up 0.5s ease forwards 0.2s;
+    }
+
+    .bot-icon {
+      width: 52px;
+      height: 52px;
+      background: linear-gradient(135deg, #bc8cff 0%, #58a6ff 100%);
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 1rem;
+      font-size: 24px;
+      box-shadow: 0 0 24px rgba(188,140,255,0.35);
+      animation: float 3s ease-in-out infinite;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-5px); }
+    }
+
+    h1 {
+      font-size: 26px;
+      font-weight: 600;
+      color: #f0f6fc;
+      margin-bottom: 6px;
+      letter-spacing: -0.02em;
+    }
+
+    .subtitle {
+      font-size: 14px;
+      color: #8b949e;
+      line-height: 1.5;
+    }
+
+    .divider {
+      height: 1px;
+      background: linear-gradient(90deg, rgba(188,140,255,0.3), rgba(88,166,255,0.15), transparent);
+      margin: 1.5rem 0;
+    }
+
+    section {
+      margin-bottom: 1.75rem;
+      opacity: 0;
+      animation: fade-up 0.5s ease forwards;
+    }
+
+    section:nth-child(1) { animation-delay: 0.3s; }
+    section:nth-child(2) { animation-delay: 0.4s; }
+    section:nth-child(3) { animation-delay: 0.5s; }
+    section:nth-child(4) { animation-delay: 0.55s; }
+    section:nth-child(5) { animation-delay: 0.6s; }
+    section:nth-child(6) { animation-delay: 0.65s; }
+
+    .section-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      color: #bc8cff;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-bottom: 0.75rem;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .section-label::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: rgba(188,140,255,0.2);
+    }
+
+    .page-cards {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .page-card {
+      background: #161b22;
+      border: 1px solid #30363d;
+      border-radius: 10px;
+      padding: 1rem 1.1rem;
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      text-decoration: none;
+      color: inherit;
+      transition: border-color 0.2s, background 0.2s, transform 0.2s;
+    }
+
+    .page-card:hover {
+      border-color: #bc8cff;
+      background: #1a1a2e;
+      transform: translateY(-2px);
+    }
+
+    .card-icon {
+      width: 34px;
+      height: 34px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .card-icon-blue { background: rgba(88,166,255,0.15); }
+    .card-icon-purple { background: rgba(188,140,255,0.15); }
+
+    .card-title {
+      font-size: 13px;
+      font-weight: 600;
+      color: #e6edf3;
+      margin-bottom: 2px;
+    }
+
+    .card-url {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      color: #bc8cff;
+      word-break: break-all;
+    }
+
+    .summary-card {
+      background: #161b22;
+      border: 1px solid #21262d;
+      border-radius: 10px;
+      padding: 1rem 1.25rem;
+      font-size: 13px;
+      color: #c9d1d9;
+      line-height: 1.7;
+      border-left: 3px solid;
+    }
+
+    .summary-card.tos { border-left-color: #58a6ff; }
+    .summary-card.privacy { border-left-color: #bc8cff; }
+    .summary-card.updates { border-left-color: #e3b341; }
+
+    .summary-card a { color: #58a6ff; text-decoration: none; }
+    .summary-card a:hover { text-decoration: underline; }
+
+    .file-tree {
+      background: #0d1117;
+      border: 1px solid #21262d;
+      border-radius: 8px;
+      padding: 1rem 1.25rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      line-height: 2;
+    }
+
+    .tree-line { color: #8b949e; }
+    .tree-line .file { color: #79c0ff; }
+    .tree-line .comment { color: #3d444d; }
+    .tree-line .active { color: #3fb950; }
+
+    .contact-row {
+      display: flex;
+      gap: 10px;
+    }
+
+    .contact-btn {
+      flex: 1;
+      background: #161b22;
+      border: 1px solid #30363d;
+      border-radius: 8px;
+      padding: 10px 14px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      cursor: pointer;
+      transition: border-color 0.2s, background 0.2s;
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .contact-btn:hover { border-color: #bc8cff; background: #1a1a2e; }
+    .contact-btn-label { font-size: 13px; color: #e6edf3; font-weight: 500; }
+    .contact-btn-sub { font-size: 11px; color: #8b949e; }
+
+    .contact-icon {
+      width: 30px;
+      height: 30px;
+      border-radius: 7px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .ci-discord { background: rgba(88,101,242,0.2); }
+    .ci-github { background: rgba(139,148,158,0.15); }
+
+    @keyframes fade-up {
+      from { opacity: 0; transform: translateY(12px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+  <div class="readme-wrap">
+    <div class="grid-bg"></div>
+    <div class="glow"></div>
+    <div class="content">
+
+      <div class="badge-row">
+        <span class="badge badge-green">● live</span>
+        <span class="badge badge-blue">github pages</span>
+        <span class="badge badge-purple">discord bot</span>
+      </div>
+
+      <div class="hero">
+        <div class="bot-icon">🎨</div>
+        <h1>Chroma AI — Policy Pages</h1>
+        <p class="subtitle">Official Terms of Service & Privacy Policy for <strong style="color:#e6edf3">Chroma AI</strong>, a Discord bot — hosted via GitHub Pages and registered in the Discord Developer Portal.</p>
+      </div>
+
+      <div class="divider"></div>
+
+      <section>
+        <div class="section-label">Live pages</div>
+        <div class="page-cards">
+          <a class="page-card" href="./terms-of-service.html">
+            <div class="card-icon card-icon-blue"><i class="ti ti-file-text" aria-hidden="true" style="font-size:17px;color:#58a6ff;"></i></div>
+            <div>
+              <div class="card-title">Terms of Service</div>
+              <div class="card-url">terms-of-service.html</div>
+            </div>
+          </a>
+          <a class="page-card" href="./privacy-policy.html">
+            <div class="card-icon card-icon-purple"><i class="ti ti-lock" aria-hidden="true" style="font-size:17px;color:#bc8cff;"></i></div>
+            <div>
+              <div class="card-title">Privacy Policy</div>
+              <div class="card-url">privacy-policy.html</div>
+            </div>
+          </a>
+        </div>
+      </section>
+
+      <section>
+        <div class="section-label">Terms of Service — summary</div>
+        <div class="summary-card tos">
+          By using Chroma AI, you agree to comply with <a href="https://discord.com/terms" target="_blank">Discord's Terms of Service</a>. Misuse, abuse, spam, or harassment through the bot may result in restricted access. The bot is provided as-is with no guarantees of uptime or availability.
+        </div>
+      </section>
+
+      <section>
+        <div class="section-label">Privacy Policy — summary</div>
+        <div class="summary-card privacy">
+          Chroma AI does not collect or store personal data beyond what Discord provides during normal bot operation (such as server IDs and user IDs for command processing). No data is sold or shared with third parties.
+        </div>
+      </section>
+
+      <section>
+        <div class="section-label">Policy updates</div>
+        <div class="summary-card updates">
+          These policies may be updated at any time. Continued use of Chroma AI after changes constitutes acceptance of the updated policies. Users are encouraged to review this repository periodically for changes.
+        </div>
+      </section>
+
+      <section>
+        <div class="section-label">Repository structure</div>
+        <div class="file-tree">
+          <div class="tree-line">├── <span class="active">README.md</span> &nbsp;<span class="comment">← you are here</span></div>
+          <div class="tree-line">├── <span class="file">terms-of-service.html</span></div>
+          <div class="tree-line">└── <span class="file">privacy-policy.html</span></div>
+        </div>
+      </section>
+
+      <section>
+        <div class="section-label">Contact</div>
+        <div class="contact-row">
+          <a class="contact-btn" href="#">
+            <div class="contact-icon ci-discord"><i class="ti ti-brand-discord" aria-hidden="true" style="font-size:16px;color:#5865f2;"></i></div>
+            <div>
+              <div class="contact-btn-label">Discord</div>
+              <div class="contact-btn-sub">Reach out directly</div>
+            </div>
+          </a>
+          <a class="contact-btn" href="../../issues">
+            <div class="contact-icon ci-github"><i class="ti ti-brand-github" aria-hidden="true" style="font-size:16px;color:#8b949e;"></i></div>
+            <div>
+              <div class="contact-btn-label">GitHub Issues</div>
+              <div class="contact-btn-sub">Open an issue</div>
+            </div>
+          </a>
+        </div>
+      </section>
+
+    </div>
+  </div>
+</body>
+</html>
